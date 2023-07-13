@@ -1,56 +1,47 @@
 import { render } from "preact";
 import { useState } from "preact/hooks";
-import "./style.css";
 import Pacman from "./Pacman";
-import { parsePlaceCommand } from "./utils";
+import { isPlaceCommandValid } from "./utils";
+import "./style.css";
 
 export function App() {
   const [text, setText] = useState("");
   const [error, setError] = useState("");
-  // TODO: if theres more than 1 place, there could be more reports?
-  // useState([])?
-  const [report, setReport] = useState("");
+  const [reports, setReports] = useState([]);
 
-  function validate(data: String) {
+  function run(data: string) {
     try {
       setError("");
-      setReport("");
-      const result = run(data);
-      setReport(result);
+      setReports([]);
+
+      // clean up next lines and put all commands in an array
+      const array = data
+        .split("\n")
+        .map((cmd) => cmd.replace(/\s/g, "")) // remove spaces
+        .filter((cmd) => cmd !== ""); // remove empty
+
+      // check for REPORT, notify user that they don't have it
+      if (!array.find((cmd) => cmd === "REPORT")) {
+        throw new Error("Please finish your commands with a REPORT");
+      }
+
+      let isValid = false;
+      let sanitised: string[] = [];
+      for (let i = 0; i < array.length; i++) {
+        // if the current PLACE is valid, add the commands until it's not
+        if (isPlaceCommandValid(array[i])) {
+          isValid = true;
+        }
+        if (isValid) {
+          sanitised.push(array[i]);
+        }
+      }
+
+      const john = new Pacman();
+      setReports(sanitised.map((command) => john.control(command)));
     } catch (error) {
       setError(error.message);
     }
-  }
-
-  function run(data: String) {
-    // clean up next lines and put all commands in an array
-    const regex = /\n+/g;
-    const array = data
-      .replace(regex, "\n")
-      .split("\n")
-      .map((cmd) => cmd.replace(/\s/g, "")) // remove spaces
-      .filter((cmd) => cmd !== ""); // remove empty
-    const size = array.length;
-
-    // check for REPORT, notify user that they don't have it
-    //if (!(array[size - 1] === "REPORT")) {
-    //  throw new Error("Please finish your commands with a REPORT");
-    //}
-
-    // TODO: is there a point of execution that doesn't have a REPORT at the end if there's a new PLACE right after?
-    // discard all commands above PLACE
-    const firstCommandIndex = array.findIndex((command) =>
-      command.startsWith("PLACE")
-    );
-    const sanitised = array.slice(firstCommandIndex);
-    const placeCommand = sanitised[0];
-
-    // init John Pacman with the PLACE input
-    const [x, y, f] = parsePlaceCommand(placeCommand);
-    const john = new Pacman(x, y, f);
-    // TODO: skip commands if PLACE is invalid
-    sanitised.forEach((command) => john.move(command));
-    return john.report();
   }
 
   return (
@@ -59,17 +50,27 @@ export function App() {
       <br />
       <textarea
         id="command"
+        data-testid="command"
         rows={10}
         cols={40}
         placeholder="Start"
         onChange={(e) => setText((e.target as HTMLInputElement).value)}
       ></textarea>
-      <div id="error" style={{ color: "red" }}>
+      <div id="error" data-testid="error" style={{ color: "red" }}>
         {error}
       </div>
       <br />
-      <button onClick={() => validate(text)}>Go!</button>
-      {report && <div style={{ color: "green" }}>Output: {report}</div>}
+      <button onClick={() => run(text)}>Go!</button>
+      {reports.length > 0 && (
+        <>
+          <label>Output:</label>
+          <ul data-testid="reports" style={{ color: "green" }}>
+            {reports.map((r) => (
+              <li>{r}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </>
   );
 }
