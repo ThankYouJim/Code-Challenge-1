@@ -1,4 +1,5 @@
 export const MOVE = "MOVE";
+export const REPORT = "REPORT";
 export enum DIR {
   NORTH = "NORTH",
   EAST = "EAST",

@@ -1,8 +1,27 @@
 # Code-Challenge-1
 
-Code problem details:
+## Run
 
------------
+```
+npm run dev
+```
+
+## Test
+
+This app use jest to run tests.
+
+```
+npm test
+```
+
+## Notes
+
+- Any set of valid commands that has a report in the end will output
+- Program ignores invalid placements and subsequent movements, and ignores any invalid movements.
+
+<br/>
+
+## Code problem details:
 
 Pacman Simulator
 
@@ -10,7 +29,7 @@ Description:
 
 - The application is a simulation of Pacman moving on in a grid, of dimensions 5 units x 5 units.
 - There are no other obstructions on the grid.
-- Pacman is free to roam around the surface of the grid, but must be prevented from moving off the grid. Any movement that would result in Pacman moving off the grid must  be prevented, however further valid movement commands must still be allowed.
+- Pacman is free to roam around the surface of the grid, but must be prevented from moving off the grid. Any movement that would result in Pacman moving off the grid must be prevented, however further valid movement commands must still be allowed.
 - Create an application that can read in commands of the following form -
 
 ```
@@ -41,6 +60,7 @@ REPORT
 - Any move that would cause Pacman to fall must be ignored.
 
 Example Input and Output:
+
 ```
 a)
 PLACE 0,0,NORTH
@@ -51,6 +71,7 @@ REPORT
 
 Output: 0,1,NORTH
 ```
+
 ```
 b)
 
@@ -62,6 +83,7 @@ REPORT
 
 Output: 0,0,WEST
 ```
+
 ```
 c)
 
@@ -81,12 +103,9 @@ Output: 3,3,NORTH
 ```
 
 **Deliverables:**
+
 - Spend as little or as much time as you like on the challenge.
 - The code you produce can be in any language
-- *It is not required to provide any graphical output* showing the movement of Pacman.
-- The output of the efforts *must be committed back into a Public Repo in Github* and the URL shared back for review.
+- _It is not required to provide any graphical output_ showing the movement of Pacman.
+- The output of the efforts _must be committed back into a Public Repo in Github_ and the URL shared back for review.
 - Proving your code works via unit testing is highly encouraged
-
-
-
-

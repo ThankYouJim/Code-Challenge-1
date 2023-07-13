@@ -3,6 +3,7 @@ import { useState } from "preact/hooks";
 import Pacman from "./Pacman";
 import { isPlaceCommandValid } from "./utils";
 import "./style.css";
+import { REPORT } from "./constants";
 
 export function App() {
   const [text, setText] = useState("");
@@ -18,30 +19,40 @@ export function App() {
 
       // clean up next lines and put all commands in an array
       const array = data
+        .toUpperCase()
         .split("\n")
         .map((cmd) => cmd.replace(/\s/g, "")) // remove spaces
         .filter((cmd) => cmd !== ""); // remove empty
+      //console.log(array);
+
+      // only spaces or empty
+      if (array.length == 0) throw new Error("Command empty.");
 
       // check for REPORT, notify user that they don't have it
-      if (!array.find((cmd) => cmd === "REPORT")) {
+      if (!array.find((cmd) => cmd === "REPORT"))
         throw new Error("Please finish your commands with a REPORT");
-      }
 
       let isValid = false;
+      let ignored = 0;
       let sanitised: string[] = [];
+      //console.log(sanitised);
       for (let i = 0; i < array.length; i++) {
         // if the current PLACE is valid, add the commands until it's not
         const curr = array[i];
         if (curr.startsWith("PLACE")) {
           isValid = isPlaceCommandValid(curr);
         }
-        if (isValid) {
+        if (isValid || curr === REPORT) {
           sanitised.push(array[i]);
-        } else setIgnored(ignored + 1);
+        } else ignored++;
       }
+      setIgnored(ignored);
 
       const john = new Pacman();
-      sanitised.map((command) => john.control(command));
+      sanitised.map((command, i) => {
+        console.log(i, command);
+        john.control(command);
+      });
       setReports(john.getJourney());
     } catch (error) {
       setError(error.message);
@@ -59,6 +70,7 @@ export function App() {
         cols={30}
         placeholder="Start"
         onChange={(e) => setText((e.target as HTMLInputElement).value)}
+        style={{ textTransform: "uppercase" }}
       ></textarea>
       <div id="error" data-testid="error" style={{ color: "red" }}>
         {error}
