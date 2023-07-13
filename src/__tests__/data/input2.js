@@ -5,3 +5,5 @@ LEFT
 
 REPORT
 `;
+
+//Output: 0,0,WEST

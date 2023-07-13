@@ -5,3 +5,5 @@ MOVE
 
 REPORT
 `;
+
+//Output: 0,1,NORTH

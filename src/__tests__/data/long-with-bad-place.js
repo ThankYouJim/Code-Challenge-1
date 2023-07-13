@@ -25,3 +25,5 @@ MOVE
 
 REPORT
 `;
+
+//2 output(s): 3,3,NORTH, 4,2,SOUTH

@@ -14,6 +14,7 @@ export function App() {
     try {
       setError("");
       setReports([]);
+      setIgnored(0);
 
       // clean up next lines and put all commands in an array
       const array = data
