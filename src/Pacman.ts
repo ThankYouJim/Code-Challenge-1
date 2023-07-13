@@ -1,15 +1,6 @@
-import {
-  LEFT,
-  RIGHT,
-  MOVE,
-  DIRECTIONS,
-  NORTH,
-  EAST,
-  SOUTH,
-  WEST,
-} from "./constants";
+import { DIR, CARDINAL, MOVE } from "./constants";
 
-const n = DIRECTIONS.length;
+const n = CARDINAL.length;
 
 export default class Pacman {
   x: number;
@@ -17,36 +8,42 @@ export default class Pacman {
   f: number;
 
   constructor(x: number, y: number, f: number) {
+    this.place(x, y, f);
+  }
+
+  place(x: number, y: number, f: number) {
     this.x = x;
     this.y = y;
     this.f = f;
   }
 
-  move(command) {
+  move(command: String) {
     switch (command) {
-      case LEFT:
-      case RIGHT:
-        const change = command === LEFT ? -1 : 1;
-        this.f = (((this.f + change) % n) + n) % n;
+      case DIR.LEFT:
+        this.f = (((this.f + -1) % n) + n) % n;
+        break;
+      case DIR.RIGHT:
+        this.f = (((this.f + 1) % n) + n) % n;
         break;
       case MOVE:
-        // TODO: Need to add checks, any suicide moves are ignored.
-        const facing = DIRECTIONS[this.f];
-        switch (facing) {
-          case NORTH:
-            this.y += 1;
-            break;
-          case EAST:
-            this.x += 1;
-            break;
-          case SOUTH:
-            this.y -= 1;
-            break;
-          case WEST:
-            this.x -= 1;
-            break;
-          default:
-            break;
+        {
+          const facing = CARDINAL[this.f];
+          switch (facing) {
+            case DIR.NORTH:
+              this.y = this.check(this.y, 1);
+              break;
+            case DIR.EAST:
+              this.x = this.check(this.x, 1);
+              break;
+            case DIR.SOUTH:
+              this.y = this.check(this.y, -1);
+              break;
+            case DIR.WEST:
+              this.x = this.check(this.x, -1);
+              break;
+            default:
+              break;
+          }
         }
         break;
       default:
@@ -55,6 +52,12 @@ export default class Pacman {
   }
 
   report() {
-    return `${this.x},${this.y},${DIRECTIONS[this.f]}`;
+    return `${this.x},${this.y},${CARDINAL[this.f]}`;
+  }
+
+  check(pt: number, change: number) {
+    const tmp = pt + change;
+    if (tmp < 0 || tmp >= 4) return pt;
+    return tmp;
   }
 }

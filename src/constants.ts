@@ -1,8 +1,10 @@
-export const NORTH = "NORTH";
-export const EAST = "EAST";
-export const SOUTH = "SOUTH";
-export const WEST = "WEST";
-export const LEFT = "LEFT";
-export const RIGHT = "RIGHT";
 export const MOVE = "MOVE";
-export const DIRECTIONS = [NORTH, EAST, SOUTH, WEST];
+export enum DIR {
+  NORTH = "NORTH",
+  EAST = "EAST",
+  SOUTH = "SOUTH",
+  WEST = "WEST",
+  LEFT = "LEFT",
+  RIGHT = "RIGHT",
+}
+export const CARDINAL = [DIR.NORTH, DIR.EAST, DIR.SOUTH, DIR.WEST];

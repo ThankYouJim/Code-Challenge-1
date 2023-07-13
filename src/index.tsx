@@ -1,8 +1,8 @@
 import { render } from "preact";
 import { useState } from "preact/hooks";
 import "./style.css";
-import { DIRECTIONS } from "./constants";
 import Pacman from "./Pacman";
+import { parsePlaceCommand } from "./utils";
 
 export function App() {
   const [text, setText] = useState("");
@@ -44,24 +44,12 @@ export function App() {
     );
     const sanitised = array.slice(firstCommandIndex);
     const placeCommand = sanitised[0];
-    const placeRegex = new RegExp(
-      "PLACE([0-4]),([0-4]),[NORTH|SOUTH|EAST|WEST]"
-    );
-    // TODO: Check for further PLACE commands, if none, throw error below
-    // if PLACE x,y,DIR regex is invalid, throw error
-    if (!placeRegex.test(placeCommand)) {
-      throw new Error("Invalid coordinates!");
-    }
 
     // init John Pacman with the PLACE input
-    const coords = placeCommand.match(
-      /([0-4]),([0-4]),(NORTH|SOUTH|EAST|WEST)$/
-    );
-    const x = parseInt(coords[1]);
-    const y = parseInt(coords[2]);
-    const f = DIRECTIONS.findIndex((d) => d === coords[3]);
+    const [x, y, f] = parsePlaceCommand(placeCommand);
     const john = new Pacman(x, y, f);
-    sanitised.slice(1).forEach((command) => john.move(command));
+    // TODO: skip commands if PLACE is invalid
+    sanitised.forEach((command) => john.move(command));
     return john.report();
   }
 
