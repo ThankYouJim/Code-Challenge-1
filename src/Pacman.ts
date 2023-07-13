@@ -7,8 +7,11 @@ export default class Pacman {
   x: number;
   y: number;
   f: number;
+  journey: string[];
 
-  constructor() {}
+  constructor() {
+    this.journey = [];
+  }
 
   place(x: number, y: number, f: number) {
     this.x = x;
@@ -46,7 +49,8 @@ export default class Pacman {
         }
         break;
       case "REPORT":
-        return this.report();
+        this.journey.push(this.report());
+        break;
       default:
         const [x, y, f] = parsePlaceCommand(command);
         this.place(x, y, f);
@@ -62,5 +66,9 @@ export default class Pacman {
     const tmp = pt + change;
     if (tmp < 0 || tmp >= 4) return pt;
     return tmp;
+  }
+
+  getJourney() {
+    return this.journey;
   }
 }

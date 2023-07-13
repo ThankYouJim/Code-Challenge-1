@@ -8,10 +8,6 @@ export function isPlaceCommandValid(command: string) {
 }
 
 export function parsePlaceCommand(command: string) {
-  // if PLACE x,y,f regex is invalid, throw error
-  if (!isPlaceCommandValid(command)) {
-    throw new Error("Invalid PLACE coordinates!");
-  }
   const coords = command.match(coordRegex);
   const x = parseInt(coords[1]);
   const y = parseInt(coords[2]);

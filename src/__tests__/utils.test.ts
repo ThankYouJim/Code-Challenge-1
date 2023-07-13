@@ -14,7 +14,4 @@ describe("Utils", () => {
     const expected = [0, 0, 3];
     expect(parsePlaceCommand("PLACE0,0,WEST")).toEqual(expected);
   });
-  test("parsePlaceCommand - throw error", () => {
-    expect(() => parsePlaceCommand("PLACE0,0,BAD")).toThrow();
-  });
 });

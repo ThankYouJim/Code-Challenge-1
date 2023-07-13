@@ -8,6 +8,7 @@ export function App() {
   const [text, setText] = useState("");
   const [error, setError] = useState("");
   const [reports, setReports] = useState([]);
+  const [ignored, setIgnored] = useState(0);
 
   function run(data: string) {
     try {
@@ -29,16 +30,18 @@ export function App() {
       let sanitised: string[] = [];
       for (let i = 0; i < array.length; i++) {
         // if the current PLACE is valid, add the commands until it's not
-        if (isPlaceCommandValid(array[i])) {
-          isValid = true;
+        const curr = array[i];
+        if (curr.startsWith("PLACE")) {
+          isValid = isPlaceCommandValid(curr);
         }
         if (isValid) {
           sanitised.push(array[i]);
-        }
+        } else setIgnored(ignored + 1);
       }
 
       const john = new Pacman();
-      setReports(sanitised.map((command) => john.control(command)));
+      sanitised.map((command) => john.control(command));
+      setReports(john.getJourney());
     } catch (error) {
       setError(error.message);
     }
@@ -51,8 +54,8 @@ export function App() {
       <textarea
         id="command"
         data-testid="command"
-        rows={10}
-        cols={40}
+        rows={20}
+        cols={30}
         placeholder="Start"
         onChange={(e) => setText((e.target as HTMLInputElement).value)}
       ></textarea>
@@ -61,15 +64,21 @@ export function App() {
       </div>
       <br />
       <button onClick={() => run(text)}>Go!</button>
+
       {reports.length > 0 && (
-        <>
-          <label>Output:</label>
-          <ul data-testid="reports" style={{ color: "green" }}>
-            {reports.map((r) => (
-              <li>{r}</li>
-            ))}
-          </ul>
-        </>
+        <div
+          style={{
+            marginTop: "2rem",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div>{ignored} line(s) ignored.</div>
+          <div style={{ color: "green" }}>
+            <label>{reports.length} output(s): </label>
+            <span>{reports.join(", ")}</span>
+          </div>
+        </div>
       )}
     </>
   );
