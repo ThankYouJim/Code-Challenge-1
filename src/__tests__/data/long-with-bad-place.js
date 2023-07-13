@@ -1,0 +1,27 @@
+export default `
+PLACE 1,2,EAST
+
+MOVE
+
+MOVE
+
+LEFT
+
+MOVE
+
+REPORT
+
+PLACE 5,5,NORTH
+
+MOVE
+
+REPORT
+
+PLACE 3,3,EAST
+
+MOVE 
+
+MOVE
+
+REPORT
+`;

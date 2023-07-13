@@ -2,38 +2,38 @@ import Pacman from "../Pacman";
 import { DIR, MOVE } from "../constants";
 
 describe("Pacman", () => {
-  let testMan;
+  let testMan: Pacman;
   beforeEach(() => {
-    testMan = new Pacman(0, 0, 0);
+    testMan = new Pacman();
+    testMan.place(0, 0, 0);
   });
   test("Rotate left", () => {
-    testMan.move(DIR.LEFT);
+    testMan.control(DIR.LEFT);
     const report = testMan.report();
     expect(report).toBe("0,0,WEST");
   });
   test("Rotate right", () => {
-    testMan.move(DIR.RIGHT);
+    testMan.control(DIR.RIGHT);
     const report = testMan.report();
     expect(report).toBe("0,0,EAST");
   });
   test("Move valid", () => {
-    testMan.move(MOVE);
+    testMan.control(MOVE);
     const report = testMan.report();
     expect(report).toBe("0,1,NORTH");
   });
   test("Move invalid", () => {
-    testMan.move(DIR.LEFT);
-    console.log(testMan.report());
-    testMan.move(MOVE);
+    testMan.control(DIR.LEFT);
+    testMan.control(MOVE);
     const report = testMan.report();
     expect(report).toBe("0,0,WEST");
   });
   test("Placed pacman elsewhere", () => {
-    testMan.move(MOVE);
+    testMan.control(MOVE);
     testMan.place(4, 4, 2);
-    testMan.move(MOVE);
-    testMan.move(MOVE);
-    testMan.move(DIR.LEFT);
+    testMan.control(MOVE);
+    testMan.control(MOVE);
+    testMan.control(DIR.LEFT);
     const report = testMan.report();
     expect(report).toBe("4,2,EAST");
   });

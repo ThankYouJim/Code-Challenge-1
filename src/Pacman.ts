@@ -1,4 +1,5 @@
 import { DIR, CARDINAL, MOVE } from "./constants";
+import { parsePlaceCommand } from "./utils";
 
 const n = CARDINAL.length;
 
@@ -7,9 +8,7 @@ export default class Pacman {
   y: number;
   f: number;
 
-  constructor(x: number, y: number, f: number) {
-    this.place(x, y, f);
-  }
+  constructor() {}
 
   place(x: number, y: number, f: number) {
     this.x = x;
@@ -17,7 +16,7 @@ export default class Pacman {
     this.f = f;
   }
 
-  move(command: String) {
+  control(command: string) {
     switch (command) {
       case DIR.LEFT:
         this.f = (((this.f + -1) % n) + n) % n;
@@ -46,7 +45,11 @@ export default class Pacman {
           }
         }
         break;
+      case "REPORT":
+        return this.report();
       default:
+        const [x, y, f] = parsePlaceCommand(command);
+        this.place(x, y, f);
         break;
     }
   }

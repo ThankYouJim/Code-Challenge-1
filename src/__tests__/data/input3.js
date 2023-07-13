@@ -1,3 +1,4 @@
+export default `
 PLACE 1,2,EAST
 
 MOVE
@@ -9,3 +10,4 @@ LEFT
 MOVE
 
 REPORT
+`;
