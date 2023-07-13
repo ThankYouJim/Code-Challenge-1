@@ -11,7 +11,7 @@ import {
 
 const n = DIRECTIONS.length;
 
-export class Pacman {
+export default class Pacman {
   x: number;
   y: number;
   f: number;
@@ -30,6 +30,7 @@ export class Pacman {
         this.f = (((this.f + change) % n) + n) % n;
         break;
       case MOVE:
+        // TODO: Need to add checks, any suicide moves are ignored.
         const facing = DIRECTIONS[this.f];
         switch (facing) {
           case NORTH:
