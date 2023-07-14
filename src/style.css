@@ -93,3 +93,27 @@ button:focus-visible {
 .read-the-docs {
   color: #888;
 }
+
+.pacman {
+  position: fixed;
+  bottom: -6rem;
+  right: -4rem;
+  margin: auto;
+  height: 100%;
+  aspect-ratio: 1;
+
+  background: #1e1e1e;
+  opacity: 0.5;
+  box-shadow: inset 15px 5px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 100%;
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 100%,
+    0% 100%,
+    0% 90%,
+    50% 50%,
+    0% 10%
+  );
+  z-index: -1;
+}

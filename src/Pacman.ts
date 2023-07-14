@@ -1,8 +1,6 @@
 import { DIR, CARDINAL, MOVE, REPORT } from "./constants";
 import { parsePlaceCommand } from "./utils";
 
-const n = CARDINAL.length;
-
 export default class Pacman {
   x: number;
   y: number;
@@ -20,6 +18,7 @@ export default class Pacman {
   }
 
   control(command: string) {
+    const n = CARDINAL.length;
     switch (command) {
       case DIR.LEFT:
         this.f = (((this.f + -1) % n) + n) % n;
@@ -48,7 +47,6 @@ export default class Pacman {
             default:
               break;
           }
-          this.print();
         }
         break;
       case REPORT:

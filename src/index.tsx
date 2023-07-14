@@ -23,7 +23,6 @@ export function App() {
         .split("\n")
         .map((cmd) => cmd.replace(/\s/g, "")) // remove spaces
         .filter((cmd) => cmd !== ""); // remove empty
-      //console.log(array);
 
       // only spaces or empty
       if (array.length == 0) throw new Error("Command empty.");
@@ -35,7 +34,6 @@ export function App() {
       let isValid = false;
       let ignored = 0;
       let sanitised: string[] = [];
-      //console.log(sanitised);
       for (let i = 0; i < array.length; i++) {
         // if the current PLACE is valid, add the commands until it's not
         const curr = array[i];
@@ -50,7 +48,6 @@ export function App() {
 
       const john = new Pacman();
       sanitised.map((command, i) => {
-        console.log(i, command);
         john.control(command);
       });
       setReports(john.getJourney());
@@ -61,6 +58,7 @@ export function App() {
 
   return (
     <>
+      <div class="pacman" />
       <label for="command">Command</label>
       <br />
       <textarea

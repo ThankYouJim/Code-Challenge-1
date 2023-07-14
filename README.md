@@ -14,10 +14,17 @@ This app use jest to run tests.
 npm test
 ```
 
-## Notes
+## Tech Stack
+
+Preact + TS, Jest
+Preact was used instead of React for its lightweight package, and we don't really need React for a simple app.
+TS was integrated from the start just for good coding practice
+
+## Notes/Bugs
 
 - Any set of valid commands that has a report in the end will output
 - Program ignores invalid placements and subsequent movements, and ignores any invalid movements.
+- ! I wasn't able to fix the bug where jest couldn't parse index.tsx, so tests for the file was ignored.
 
 <br/>
 
